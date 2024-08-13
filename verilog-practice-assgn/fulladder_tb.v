@@ -1,4 +1,4 @@
-module halfadder_tb();
+module fulladder_tb();
     // Inputs
     reg a,b,c0;
 
