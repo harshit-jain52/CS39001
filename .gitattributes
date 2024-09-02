@@ -1,0 +1,2 @@
+*.asm linguist-language=Assembly
+*.v linguist-language=Verilog
