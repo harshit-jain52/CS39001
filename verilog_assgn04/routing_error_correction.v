@@ -1,13 +1,37 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 27.08.2024 15:59:20
+// Design Name: 
+// Module Name: routing_error_correction
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
 module routing_error_correction(
-    input wire clk, rst,
+    input wire clk_board, rst,
     input wire [0:5] d_in,
     output wire [1:4] d_disp0, d_disp1, d_disp2, d_disp3
 );
-    
     wire data_line0, data_line1, data_line2, data_line3;
     wire err_line0, err_line1, err_line2, err_line3;
     wire strobe0, strobe1, strobe2, strobe3;
     wire err_strobe0,err_strobe1,err_strobe2,err_strobe3;
+    wire clk;
+    
+    CLKDiv DIV(.clk_in(clk_board),.clk_out(clk));
     
     secure_router SR(.clk(clk),.rst(rst),.d_in(d_in),
     .data_line0(data_line0),.data_line1(data_line1),.data_line2(data_line2),.data_line3(data_line3),

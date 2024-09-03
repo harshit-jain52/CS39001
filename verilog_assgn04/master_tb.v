@@ -25,8 +25,8 @@ module master_tb();
     reg clk, rst;
     wire [1:4] d_disp0, d_disp1, d_disp2, d_disp3;
     
-    
-    routing_error_correction uut(.clk(clk), .rst(rst), .d_in(d_in),.d_disp0(d_disp0),.d_disp1(d_disp1),.d_disp2(d_disp2),.d_disp3(d_disp3));
+    // Set DIVISOR in CLKDiv to small number before simulation of tb
+    routing_error_correction uut(.clk_board(clk), .rst(rst), .d_in(d_in),.d_disp0(d_disp0),.d_disp1(d_disp1),.d_disp2(d_disp2),.d_disp3(d_disp3));
     initial begin
         $monitor("time = %0d, output = %d %d %d %d", $time, d_disp0, d_disp1, d_disp2, d_disp3);
         
@@ -39,10 +39,9 @@ module master_tb();
         #200 rst=1; d_in = 6'b101011;
         #10 rst=0;
         #200 rst=1; d_in = 6'b111011;
-      	#10 rst=0;
-      	
-      	#200 $finish;
+        #10 rst=0;
+        #200 $finish;
     end
     
-    always #5 clk = ~clk; 
+    always #2 clk = ~clk; 
 endmodule
