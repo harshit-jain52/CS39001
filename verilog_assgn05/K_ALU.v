@@ -44,9 +44,9 @@ module K_ALU(
     notN #(.N(8)) NOT(.A(A), .C(outs[7]));
     assign outs[8] = A;
     assign outs[9] = B;
-    // outs[10] left shift
-    // outs[11] right shift logical
-    // outs[12] right shift arithmetic
+    SLL8 SLL(.A(A),.B(B),.C(outs[10]));
+    SRL8 SRL(.A(A),.B(B),.C(outs[11]));
+    SRA8 SRA(.A(A),.B(B),.C(outs[12]));
     incN #(.N(8)) INC(.A(A), .C(outs[13]));
     decN #(.N(8)) DEC(.A(A), .C(outs[14]));
     hamm8 HAMM(.A(A), .H(outs[15]));
