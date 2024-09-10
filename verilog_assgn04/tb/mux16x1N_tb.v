@@ -1,6 +1,6 @@
 module mux16x1N_tb;
     parameter N = 8; 
-    reg [N-1:0] D [15:0]; 
+    reg [N-1:0] D [15:0];
     reg [3:0] S;           
     wire [N-1:0] Z;       
     

@@ -1,7 +1,7 @@
 module hamm8_tb;
     
     reg [7:0] A;
-    wire [3:0] H;
+    wire [7:0] H;
 
     hamm8 uut(.A(A),.H(H));
 

@@ -5,7 +5,7 @@
 // 
 // Create Date: 04.09.2024 15:20:01
 // Design Name: 
-// Module Name: K_ALU
+// Module Name: K_ALU8
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,12 +20,13 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module K_ALU(
-    input wire [31:0] command
+module K_ALU8(
+    input wire [31:0] command,
+    output wire [7:0] RES
     );
 
     wire [3:0] func;
-    wire [7:0] A, B, RES;
+    wire [7:0] A, B;
     wire [7:0] outs [15:0];
 
     assign func = command[31:28];
