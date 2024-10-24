@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 01.10.2024 15:31:00
+// Create Date: 15.10.2024 16:44:48
 // Design Name: 
-// Module Name: luiN
+// Module Name: CLKDiv
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,10 +20,18 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module luiN #(parameter N = 8)(
-    input wire [N-1:0] A,
-    output wire [N-1:0] C
-    );
+module CLKDiv #(parameter DIVISOR=28'd100000000)(clk_in, clk_out);
+// Board Frequency = 100 MHz = 10^8 Hz
+    input clk_in;
+    output reg clk_out;
+    reg[27:0] counter = 28'd0;
     
-    assign C = {A[N-1:N/2], {(N/2){1'b0}}};
+    always @(posedge clk_in)
+    begin
+     counter <= counter + 28'd1;
+     if(counter>=(DIVISOR-1))
+      counter <= 28'd0;
+     clk_out <= (counter<DIVISOR/2)?1'b1:1'b0;
+    end
 endmodule
+
