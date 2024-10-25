@@ -25,7 +25,7 @@ module master_tb;
     reg clk, rst;
     wire [15:0] disp;
     
-    master uut(.boardclk(clk), .rst(rst), .ins(ins), .enable(enable), .disp(disp));
+    master uut(.boardclk(clk), .rst(rst), .ins(ins), .disp(disp));
     
     initial begin
         $monitor("Time = %0t | op = %b | Rx = %b | Ry = %b | Rz = %b | disp = %b", $time, ins[15:12], ins[11:8], ins[7:4], ins[3:0], disp);

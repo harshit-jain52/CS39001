@@ -21,7 +21,7 @@
 
 
 module master(
-    input wire boardclk, rst, enable,
+    input wire boardclk, rst,
     input wire [15:0] ins,
     output wire [15:0] disp
     );
