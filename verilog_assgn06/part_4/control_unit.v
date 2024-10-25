@@ -1,6 +1,7 @@
 module control_unit (
     input [5:0] opcode,
     input [4:0] func,
+    input clk, INT,
     output reg [3:0] aluOp,
     output reg [2:0] brOp,
     output reg aluSrc, aluOut, rdMem, wrMem, wrReg, mToReg, immSel, updPC
@@ -76,17 +77,17 @@ module control_unit (
                 end
                 endcase
             end
-            ADDI, SUBI, ANDI, ORI, XORI, NORI, SLI, SRLI, SRAI, SLTI, SGTI, NOTI, INCI, DECI, HAMI: begin
+            MOVE: begin
                 case(ins_state)
                 0: begin
-                    aluOp <= opcode[3:0]-1;
+                    aluOp <= 4'b0000;
                     brOp <= 3'b000;
-                    aluSrc <= 0;
-                    aluOut <= 0;
+                    aluSrc <= 1;
+                    aluOut <= 1;
                     rdMem <= 0;
                     wrMem <= 0;
                     mToReg <= 0;
-                    immSel <= 0;
+                    // immSel - don't care
                     ins_state <= 1;
                 end
                 1: begin
@@ -269,6 +270,66 @@ module control_unit (
                     ins_state<=2;
                 end
                 2: begin
+                    updPC <= 1;
+                    state <= 0;
+                    ins_state <= 0;
+                end
+                endcase
+            end
+            HALT: begin
+                case(ins_state)
+                0: begin
+                    // aluOp - don't care
+                    brOp <= 3'b000;
+                    aluSrc <= 0;
+                    // aluOut - don't care
+                    rdMem <= 0;
+                    wrMem <= 0;
+                    wrReg <= 0;
+                    mToReg <= 0;
+                    // immSel - don't care
+                    if(INT) begin
+                        ins_state <= 1;
+                    end
+                end
+                1: begin
+                    updPC <= 1;
+                    state <= 0;
+                    ins_state <= 0;
+                end
+                endcase
+            end
+            NOP: begin
+                // aluOp - don't care
+                brOp <= 3'b000;
+                aluSrc <= 0;
+                // aluOut - don't care
+                rdMem <= 0;
+                wrMem <= 0;
+                wrReg <= 0;
+                mToReg <= 0;
+                // immSel - don't care
+            end
+            default: begin
+                // ADDI, SUBI, ANDI, ORI, XORI, NORI, SLI, SRLI, SRAI, SLTI, SGTI, NOTI, INCI, DECI, HAMI
+                case(ins_state)
+                0: begin
+                    aluOp <= opcode[3:0]-1;
+                    brOp <= 3'b000;
+                    aluSrc <= 0;
+                    aluOut <= 0;
+                    rdMem <= 0;
+                    wrMem <= 0;
+                    mToReg <= 0;
+                    immSel <= 0;
+                    ins_state <= 1;
+                end
+                1: begin
+                    wrReg <= 1;
+                    ins_state<=2;
+                end
+                2: begin
+                    wrReg <= 0;
                     updPC <= 1;
                     state <= 0;
                     ins_state <= 0;
