@@ -1,5 +1,3 @@
-
-
 module branch_comp(
     input wire [2: 0] brOp,
     input wire [31: 0] rsOut,

@@ -214,7 +214,9 @@ The datapath consists of the following components:
         000000 & $ins_{3:0}-1$ & Infer from func: ADD,...,HAM \\
         000001-001111 & $ins_{29:26}-1$ & Infer from opcode: ADD,...,HAM \\
         010000 & 1111 & LUI \\
-        010001-010010,100000-100011 & 0000 & ADD \\
+        010001,010010 & 0000 & ADD (for load,store)\\
+        010100,010101 & 0000 & ADD (for move) \\
+        100000-100011 & 0000 & ADD (for branch) \\
         other & xxxx & Don't Care \\
         \hline
     \end{tabular}
@@ -339,5 +341,18 @@ The datapath consists of the following components:
     \caption{Selection of sign extended IMM (I-type or J-type)}
 \end{table}
 
+\subsection{isCmov}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Opcode} & \textbf{isCmov} & \textbf{Meaning} \\
+        \hline
+        010101 & 1 & CMOV \\
+        other & 0 & not CMOV \\
+        \hline
+    \end{tabular}
+    \caption{Specification of CMOV operation}
+\end{table}
 
 \end{document}

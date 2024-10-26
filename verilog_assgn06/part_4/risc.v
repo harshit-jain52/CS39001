@@ -3,7 +3,7 @@ module risc(
     output wire [31:0] disp
 );
     wire [31:0] PC, NPC, ins, finalPC;
-    wire [31:0] A, B, Rdin, aluip1, aluip2, alures,
+    wire [31:0] A, B, Rdin, aluip1, aluip2, alures, aluip_fin1, aluip_fin2;
     wire [5:0] opcode;
     wire [4:0] func, rs, rt, rd, destReg;
     wire [15:0] imm16;
@@ -11,7 +11,7 @@ module risc(
     wire [31:0] extimm16, extimm26, finimm;
     wire [3:0] aluOp;
     wire [2:0] brOp;
-    wire aluSrc, regAluOut, rdMem, wrMem, mToReg, wrReg, updPC, isBranch, immSel;
+    wire aluSrc, regAluOut, rdMem, wrMem, mToReg, wrReg, updPC, isBranch, immSel, isCmov;
 
     ins_mem IM(
         .addr(PC),
@@ -42,19 +42,31 @@ module risc(
         .wrMem(wrMem),
         .mToReg(mToReg),
         .wrReg(wrReg),
-        .updPC(updPC)
+        .updPC(updPC),
+        .isCmov(isCmov)
     );
     
     branch_comp BC(
+        .clk(clk),
         .brOp(brOp),
         .rsOut(A),
-        .clk(clk),
         .isBranch(isBranch)
     );
 
+    cmov_comp CC(
+        .clk(clk),
+        .isCmov(isCmov),
+        .A(A),
+        .B(B),
+        .aluip1(aluip1),
+        .aluip2(aluip2),
+        .aluip_fin1(aluip_fin1),
+        .aluip_fin2(aluip_fin2)
+    );
+
     ALU32 #(.N(32)) ALU(
-        .A(aluip1), 
-        .B(aluip2), 
+        .A(aluip_fin1), 
+        .B(aluip_fin2), 
         .func(aluOp),
         .RES(alures)
     );

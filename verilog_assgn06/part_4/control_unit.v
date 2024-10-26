@@ -4,7 +4,7 @@ module control_unit (
     input clk, INT,
     output reg [3:0] aluOp,
     output reg [2:0] brOp,
-    output reg aluSrc, regAluOut, rdMem, wrMem, wrReg, mToReg, immSel, updPC
+    output reg aluSrc, regAluOut, rdMem, wrMem, wrReg, mToReg, immSel, updPC, isCmov
 );
     
     reg [2:0] state, ins_state;
@@ -63,6 +63,7 @@ module control_unit (
                     wrMem <= 0;
                     mToReg <= 0;
                     // immSel - don't care
+                    isCmov <= 0;
                     ins_state <= 1;
                 end
                 1: begin
@@ -88,6 +89,7 @@ module control_unit (
                     wrMem <= 0;
                     mToReg <= 0;
                     // immSel - don't care
+                    isCmov <= 0;
                     ins_state <= 1;
                 end
                 1: begin
@@ -98,6 +100,37 @@ module control_unit (
                     wrReg <= 0;
                     updPC <= 1;
                     state <= 0;
+                    ins_state <= 0;
+                end
+                endcase
+            end
+            CMOV: begin
+                case(ins_state)
+                0: begin
+                    aluOp <= 4'b0000;
+                    brOp <= 3'b100;
+                    aluSrc <= 1;
+                    regAluOut <= 1;
+                    rdMem <= 0;
+                    wrMem <= 0;
+                    mToReg <= 0;
+                    // immSel - don't care
+                    isCmov <= 1;
+                    ins_state <= 1;
+                end
+                1: begin
+                    // buffer
+                    ins_state<=2;
+                end
+                2: begin
+                    wrReg <= 1;
+                    ins_state<=3;
+                end
+                3: begin
+                    wrReg <= 0;
+                    updPC <= 1;
+                    state <= 0;
+                    isCmov <= 0;
                     ins_state <= 0;
                 end
                 endcase
@@ -113,6 +146,7 @@ module control_unit (
                     wrMem <= 0;
                     mToReg <= 0;
                     immSel <= 0;
+                    isCmov <= 0;
                     ins_state <= 1;
                 end
                 1: begin
@@ -136,6 +170,7 @@ module control_unit (
                     regAluOut <= 0;
                     wrMem <= 0;
                     immSel <= 0;
+                    isCmov <= 0;
                     ins_state <= 1;
                 end
                 1: begin
@@ -167,6 +202,7 @@ module control_unit (
                     rdMem <= 0;
                     mToReg <= 0;
                     immSel <= 0;
+                    isCmov <= 0;
                     ins_state <= 1;
                 end
                 1: begin
@@ -195,6 +231,7 @@ module control_unit (
                     wrMem <= 0;
                     mToReg <= 0;
                     immSel <= 1;
+                    isCmov <= 0;
                     ins_state <= 1;
                 end
                 1: begin
@@ -218,6 +255,7 @@ module control_unit (
                     wrMem <= 0;
                     mToReg <= 0;
                     immSel <= 1;
+                    isCmov <= 0;
                     ins_state <= 1;
                 end
                 1: begin
@@ -241,6 +279,7 @@ module control_unit (
                     wrMem <= 0;
                     mToReg <= 0;
                     immSel <= 1;
+                    isCmov <= 0;
                     ins_state <= 1;
                 end
                 1: begin
@@ -264,6 +303,7 @@ module control_unit (
                     wrMem <= 0;
                     mToReg <= 0;
                     immSel <= 1;
+                    isCmov <= 0;
                     ins_state <= 1;
                 end
                 1: begin
@@ -288,6 +328,7 @@ module control_unit (
                     wrReg <= 0;
                     mToReg <= 0;
                     // immSel - don't care
+                    isCmov <= 0;
                     if(INT) begin
                         ins_state <= 1;
                     end
@@ -309,6 +350,7 @@ module control_unit (
                 wrReg <= 0;
                 mToReg <= 0;
                 // immSel - don't care
+                isCmov <= 0;
             end
             default: begin
                 // ADDI, SUBI, ANDI, ORI, XORI, NORI, SLI, SRLI, SRAI, SLTI, SGTI, NOTI, INCI, DECI, HAMI
@@ -322,6 +364,7 @@ module control_unit (
                     wrMem <= 0;
                     mToReg <= 0;
                     immSel <= 0;
+                    isCmov <= 0;
                     ins_state <= 1;
                 end
                 1: begin
