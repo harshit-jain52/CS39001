@@ -5,12 +5,12 @@ module risc(
     wire [31:0] PC, NPC, ins, finalPC;
     wire [31:0] A, B, Rdin, aluip1, aluip2, alures,
     wire [5:0] opcode;
-    wire [4:0] func, rs, rt, rd;
+    wire [4:0] func, rs, rt, rd, destReg;
     wire [15:0] imm16;
     wire [25:0] imm26;
     wire [3:0] aluOp;
     wire [2:0] brOp;
-    wire aluSrc, aluOut, rdMem, wrMem, mToReg, wrReg, updPC, isBranch;
+    wire aluSrc, regAluOut, rdMem, wrMem, mToReg, wrReg, updPC, isBranch;
 
     ins_mem IM(
         .addr(PC),
@@ -36,7 +36,7 @@ module risc(
         .aluOp(aluOp),
         .brOp(brOp),
         .aluSrc(aluSrc),
-        .aluOut(aluOut),
+        .regAluOut(regAluOut),
         .rdMem(rdMem),
         .wrMem(wrMem),
         .mToReg(mToReg),
@@ -57,9 +57,9 @@ module risc(
         .RES(alures)
     );
 
-    incN #(.N(32)) INC(
-        .A(PC),
-        .C(NPC)
+    pc_inc INC(
+        .PC(PC),
+        .NPC(NPC)
     );
 
     mux2x1N #(.N(32)) MUX_PC (
@@ -69,12 +69,31 @@ module risc(
         .Z(finalPC)
     );
 
+    mux2x1N #(.N(5)) MUX_DEST_REG(
+        .d0(rt), 
+        .d1(rd), 
+        .sel(regAluOut), 
+        .Z(destReg)
+    );
+    
     program_counter PCControl(
         .clk(clk),
         .rst(rst),
         .PCin(finalPC),
         .updPC(updPC),
         .PCout(PC)
+    );
+
+    reg_bank RB(
+        .clk(clk),
+        .rst(rst),
+        .wrReg(wrReg),
+        .rs(rs),
+        .rt(rt),
+        .destReg(destReg),
+        .rdData1(A),
+        .rdData2(B),
+        .wrData(Rdin)
     );
 
 endmodule

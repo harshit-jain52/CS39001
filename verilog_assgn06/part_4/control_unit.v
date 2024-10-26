@@ -4,7 +4,7 @@ module control_unit (
     input clk, INT,
     output reg [3:0] aluOp,
     output reg [2:0] brOp,
-    output reg aluSrc, aluOut, rdMem, wrMem, wrReg, mToReg, immSel, updPC
+    output reg aluSrc, regAluOut, rdMem, wrMem, wrReg, mToReg, immSel, updPC
 );
     
     reg [2:0] state, ins_state;
@@ -58,7 +58,7 @@ module control_unit (
                     aluOp <= func[3:0]-1;
                     brOp <= 3'b000;
                     aluSrc <= 1;
-                    aluOut <= 1;
+                    regAluOut <= 1;
                     rdMem <= 0;
                     wrMem <= 0;
                     mToReg <= 0;
@@ -83,7 +83,7 @@ module control_unit (
                     aluOp <= 4'b0000;
                     brOp <= 3'b000;
                     aluSrc <= 1;
-                    aluOut <= 1;
+                    regAluOut <= 1;
                     rdMem <= 0;
                     wrMem <= 0;
                     mToReg <= 0;
@@ -108,7 +108,7 @@ module control_unit (
                     aluOp <= 4'b1111;
                     brOp <= 3'b000;
                     aluSrc <= 0;
-                    aluOut <= 0;
+                    regAluOut <= 0;
                     rdMem <= 0;
                     wrMem <= 0;
                     mToReg <= 0;
@@ -133,7 +133,7 @@ module control_unit (
                     aluOp <= 4'b0000;
                     brOp <= 3'b000;
                     aluSrc <= 0;
-                    aluOut <= 0;
+                    regAluOut <= 0;
                     wrMem <= 0;
                     immSel <= 0;
                     ins_state <= 1;
@@ -163,7 +163,7 @@ module control_unit (
                     aluOp <= 4'b0000;
                     brOp <= 3'b000;
                     aluSrc <= 0;
-                    aluOut <= 0;
+                    regAluOut <= 0;
                     rdMem <= 0;
                     mToReg <= 0;
                     immSel <= 0;
@@ -190,7 +190,7 @@ module control_unit (
                     aluOp <= 4'b0000;
                     brOp <= 3'b001;
                     aluSrc <= 0;
-                    aluOut <= 0;
+                    regAluOut <= 0;
                     rdMem <= 0;
                     wrMem <= 0;
                     mToReg <= 0;
@@ -213,7 +213,7 @@ module control_unit (
                     aluOp <= 4'b0000;
                     brOp <= 3'b010;
                     aluSrc <= 0;
-                    aluOut <= 0;
+                    regAluOut <= 0;
                     rdMem <= 0;
                     wrMem <= 0;
                     mToReg <= 0;
@@ -236,7 +236,7 @@ module control_unit (
                     aluOp <= 4'b0000;
                     brOp <= 3'b011;
                     aluSrc <= 0;
-                    aluOut <= 0;
+                    regAluOut <= 0;
                     rdMem <= 0;
                     wrMem <= 0;
                     mToReg <= 0;
@@ -259,7 +259,7 @@ module control_unit (
                     aluOp <= 4'b0000;
                     brOp <= 3'b100;
                     aluSrc <= 0;
-                    aluOut <= 0;
+                    regAluOut <= 0;
                     rdMem <= 0;
                     wrMem <= 0;
                     mToReg <= 0;
@@ -282,7 +282,7 @@ module control_unit (
                     // aluOp - don't care
                     brOp <= 3'b000;
                     aluSrc <= 0;
-                    // aluOut - don't care
+                    // regAluOut - don't care
                     rdMem <= 0;
                     wrMem <= 0;
                     wrReg <= 0;
@@ -303,7 +303,7 @@ module control_unit (
                 // aluOp - don't care
                 brOp <= 3'b000;
                 aluSrc <= 0;
-                // aluOut - don't care
+                // regAluOut - don't care
                 rdMem <= 0;
                 wrMem <= 0;
                 wrReg <= 0;
@@ -317,7 +317,7 @@ module control_unit (
                     aluOp <= opcode[3:0]-1;
                     brOp <= 3'b000;
                     aluSrc <= 0;
-                    aluOut <= 0;
+                    regAluOut <= 0;
                     rdMem <= 0;
                     wrMem <= 0;
                     mToReg <= 0;

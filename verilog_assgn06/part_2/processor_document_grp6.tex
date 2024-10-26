@@ -160,8 +160,6 @@
 
 \section{Register Usage Convention}
 
-The register file contains 18 registers, each of size 32 bits.
-
 \begin{table}[H]
     \centering
     \begin{tabular}{|c|c|c|}
@@ -170,11 +168,22 @@ The register file contains 18 registers, each of size 32 bits.
         \hline
         \$R0 & Zero Register & 00000 \\
         \$R1-\$R15 & General Purpose Registers & 00001-01111 \\
-        \$pc & Program Counter & 10000 \\
-        \$ret & Return Address & 10001 \\
+        \$ret & Return Address & 10000 \\
         \hline
     \end{tabular}
-    \caption{Register Usage Convention}
+    \caption{17 32-bit GPRs in Register File}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Register} & \textbf{Function} \\
+        \hline
+        \$pc & Program Counter \\
+        \hline
+    \end{tabular}
+    \caption{SPRs}
 \end{table}
 
 
@@ -243,12 +252,12 @@ The datapath consists of the following components:
     \caption{Selection of 2nd source of ALU input}
 \end{table}
 
-\subsection{aluOut}
+\subsection{regAluOut}
 \begin{table}[H]
     \centering
     \begin{tabular}{|c|c|c|}
         \hline
-        \textbf{Opcode} & \textbf{aluOut} & \textbf{Meaning} \\
+        \textbf{Opcode} & \textbf{regAluOut} & \textbf{Meaning} \\
         \hline
         000000,010100-010101 & 1 & rd \\
         000001-010001 & 0 & rt \\
