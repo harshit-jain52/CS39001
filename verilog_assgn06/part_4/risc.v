@@ -115,6 +115,13 @@ module risc(
         .Z(finimm)
     );
 
+    mux2x1N #(.N(32)) MUX_ALUIN1(
+        .d0(NPC),
+        .d1(A),
+        .sel(brOp[2]),
+        .Z(aluip1)
+    );
+
     mux2x1N #(.N(32)) MUX_ALUIN2(
         .d0(finimm),
         .d1(B),

@@ -40,8 +40,8 @@ module control_unit (
         CALL = 6'b100110;
 
     initial begin
-        state = 3'b000;
-        ins_state = 3'b000;
+        state = 3'b100;
+        ins_state = 3'b100;
     end
 
     always@(posedge clk) begin
@@ -56,7 +56,7 @@ module control_unit (
                 case(ins_state)
                 0: begin
                     aluOp <= func[3:0]-1;
-                    brOp <= 3'b000;
+                    brOp <= 3'b100;
                     aluSrc <= 1;
                     regAluOut <= 1;
                     rdMem <= 0;
@@ -81,7 +81,7 @@ module control_unit (
                 case(ins_state)
                 0: begin
                     aluOp <= 4'b0000;
-                    brOp <= 3'b000;
+                    brOp <= 3'b100;
                     aluSrc <= 1;
                     regAluOut <= 1;
                     rdMem <= 0;
@@ -106,7 +106,7 @@ module control_unit (
                 case(ins_state)
                 0: begin
                     aluOp <= 4'b1111;
-                    brOp <= 3'b000;
+                    brOp <= 3'b100;
                     aluSrc <= 0;
                     regAluOut <= 0;
                     rdMem <= 0;
@@ -131,7 +131,7 @@ module control_unit (
                 case(ins_state)
                 0: begin
                     aluOp <= 4'b0000;
-                    brOp <= 3'b000;
+                    brOp <= 3'b100;
                     aluSrc <= 0;
                     regAluOut <= 0;
                     wrMem <= 0;
@@ -161,7 +161,7 @@ module control_unit (
                 case(ins_state)
                 0: begin
                     aluOp <= 4'b0000;
-                    brOp <= 3'b000;
+                    brOp <= 3'b100;
                     aluSrc <= 0;
                     regAluOut <= 0;
                     rdMem <= 0;
@@ -188,7 +188,7 @@ module control_unit (
                 case(ins_state)
                 0: begin
                     aluOp <= 4'b0000;
-                    brOp <= 3'b001;
+                    brOp <= 3'b000;
                     aluSrc <= 0;
                     regAluOut <= 0;
                     rdMem <= 0;
@@ -211,7 +211,7 @@ module control_unit (
                 case(ins_state)
                 0: begin
                     aluOp <= 4'b0000;
-                    brOp <= 3'b010;
+                    brOp <= 3'b001;
                     aluSrc <= 0;
                     regAluOut <= 0;
                     rdMem <= 0;
@@ -234,7 +234,7 @@ module control_unit (
                 case(ins_state)
                 0: begin
                     aluOp <= 4'b0000;
-                    brOp <= 3'b011;
+                    brOp <= 3'b010;
                     aluSrc <= 0;
                     regAluOut <= 0;
                     rdMem <= 0;
@@ -257,7 +257,7 @@ module control_unit (
                 case(ins_state)
                 0: begin
                     aluOp <= 4'b0000;
-                    brOp <= 3'b100;
+                    brOp <= 3'b011;
                     aluSrc <= 0;
                     regAluOut <= 0;
                     rdMem <= 0;
@@ -280,7 +280,7 @@ module control_unit (
                 case(ins_state)
                 0: begin
                     // aluOp - don't care
-                    brOp <= 3'b000;
+                    brOp <= 3'b100;
                     aluSrc <= 0;
                     // regAluOut - don't care
                     rdMem <= 0;
@@ -301,7 +301,7 @@ module control_unit (
             end
             NOP: begin
                 // aluOp - don't care
-                brOp <= 3'b000;
+                brOp <= 3'b100;
                 aluSrc <= 0;
                 // regAluOut - don't care
                 rdMem <= 0;
@@ -315,7 +315,7 @@ module control_unit (
                 case(ins_state)
                 0: begin
                     aluOp <= opcode[3:0]-1;
-                    brOp <= 3'b000;
+                    brOp <= 3'b100;
                     aluSrc <= 0;
                     regAluOut <= 0;
                     rdMem <= 0;

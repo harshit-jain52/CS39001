@@ -7,13 +7,15 @@ module branch_comp(
     output reg isBranch
 );
 
+    parameter BR=3'b000, BMI=3'b001, BPL=3'b010, BZ=3'b011;
+
     always @(posedge clk)
     begin   
         case(brOp)
-            3'b001: isBranch <= 1;
-            3'b010: isBranch <= rsOut[31];
-            3'b011: isBranch <= (rsOut[31] > 0)? 1'b1 : 1'b0;
-            3'b100: isBranch <= (rsOut == 0)? 1'b1 : 1'b0;    
+            BR: isBranch <= 1;
+            BMI: isBranch <= rsOut[31];
+            BPL: isBranch <= (rsOut[31] > 0)? 1'b1 : 1'b0;
+            BZ: isBranch <= (rsOut == 0)? 1'b1 : 1'b0;    
             default: isBranch <=0;
         endcase
     end
