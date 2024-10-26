@@ -2,8 +2,8 @@ module risc(
     input wire clk, rst, INT,
     output wire [31:0] disp
 );
-    wire [31:0] PC, NPC, ins, finalPC;
-    wire [31:0] A, B, Rdin, aluip1, aluip2, alures, aluip_fin1, aluip_fin2;
+    wire [31:0] PC, NPC, ins, finalPC,
+    wire [31:0] A, B, Rdin, aluip1, aluip2, alures, aluip_fin1, aluip_fin2, LMD,
     wire [5:0] opcode;
     wire [4:0] func, rs, rt, rd, destReg;
     wire [15:0] imm16;
@@ -16,6 +16,14 @@ module risc(
     ins_mem IM(
         .addr(PC),
         .ins(ins)
+    );
+
+    data_mem DM(
+        .addr(alures),
+        .wrData(B),
+        .wrMem(wrMem),
+        .rdMem(rdMem),
+        .rdData(LMD)
     );
 
     ins_decoder ID(
@@ -140,5 +148,12 @@ module risc(
         .sel(aluSrc),
         .Z(aluip2)
     );
+
+    mux2x1N #(.N(32)) MUX_MEM(
+        .d0(alures),
+        .d1(LMD),
+        .sel(mToReg),
+        .Z(Rdin)
+    )
 
 endmodule
