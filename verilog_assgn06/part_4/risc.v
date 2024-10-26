@@ -8,9 +8,10 @@ module risc(
     wire [4:0] func, rs, rt, rd, destReg;
     wire [15:0] imm16;
     wire [25:0] imm26;
+    wire [31:0] extimm16, extimm26, finimm;
     wire [3:0] aluOp;
     wire [2:0] brOp;
-    wire aluSrc, regAluOut, rdMem, wrMem, mToReg, wrReg, updPC, isBranch;
+    wire aluSrc, regAluOut, rdMem, wrMem, mToReg, wrReg, updPC, isBranch, immSel;
 
     ins_mem IM(
         .addr(PC),
@@ -54,6 +55,7 @@ module risc(
     ALU32 #(.N(32)) ALU(
         .A(aluip1), 
         .B(aluip2), 
+        .func(aluOp),
         .RES(alures)
     );
 
@@ -94,6 +96,30 @@ module risc(
         .rdData1(A),
         .rdData2(B),
         .wrData(Rdin)
+    );
+
+    sign_ext #(.N(16), .M(32)) SGEXT16(
+        .in(imm16),
+        .out(extimm16)
+    );
+
+    sign_ext #(.N(26), .M(32)) SGEXT32(
+        .in(imm26),
+        .out(extimm26)
+    );
+
+    mux2x1N #(.N(32)) MUX_IMM(
+        .d0(extimm16),
+        .d1(extimm26),
+        .sel(immSel),
+        .Z(finimm)
+    );
+
+    mux2x1N #(.N(32)) MUX_ALUIN2(
+        .d0(finimm),
+        .d1(B),
+        .sel(aluSrc),
+        .Z(aluip2)
     );
 
 endmodule
