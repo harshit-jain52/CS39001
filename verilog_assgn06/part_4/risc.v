@@ -18,6 +18,7 @@ module risc(
 //        $monitor("Time=%0t|aluOp=%b|aluip_fin1=%b|aluip_fin2=%b|alures=%b",$time,aluOp,aluip_fin1,aluip_fin2,alures);
 //        $monitor("Time=%0t|imm16=%b|extimm16=%b|finimm=%b",$time,imm16,extimm16,finimm);
 //        $monitor("Time=%0t|Rdin=%b",$time,Rdin);
+//        $monitor("Time=%0t|LMD=%b|rdMem=%b|wrMem=%b",$time,LMD,rdMem,wrMem);
 //    end
     
     always@(*) begin
@@ -30,6 +31,7 @@ module risc(
     );
 
     data_mem DM(
+        .clk(clk),
         .addr(alures),
         .wrData(B),
         .wrMem(wrMem),
