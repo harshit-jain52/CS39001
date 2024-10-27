@@ -8,7 +8,7 @@ module data_mem(
     reg signed[31:0] mem[0:1023];
 
     initial begin
-		$readmemh("data_mem.txt", mem, 0, 1023);	
+		$readmemh("data_mem.mem", mem, 0, 1023);	
 	end
 
     always @(*) begin

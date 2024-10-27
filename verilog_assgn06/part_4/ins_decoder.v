@@ -34,7 +34,10 @@ module ins_decoder (
         HALT = 6'b100100,
         NOP = 6'b100101,
         CALL = 6'b100110;
-
+    
+    initial begin
+        $monitor("Time=%0t|opcode=%b|func=%b|rs=%b|rt=%b|rd=%b|imm16=%b|imm26=%b",$time,opcode,func,rs,rt,rd,imm16,imm26);
+    end
     always @(*) begin
         opcode <= ins[31:26];
         case(opcode)

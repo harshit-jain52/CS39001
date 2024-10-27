@@ -1,6 +1,6 @@
 module risc(
     input wire clk, rst, INT,
-    output wire [31:0] disp
+    output reg [31:0] disp
 );
     wire [31:0] PC, NPC, ins, finalPC;
     wire [31:0] A, B, Rdin, aluip1, aluip2, alures, aluip_fin1, aluip_fin2, LMD;
@@ -12,7 +12,17 @@ module risc(
     wire [3:0] aluOp;
     wire [2:0] brOp;
     wire aluSrc, regAluOut, rdMem, wrMem, mToReg, wrReg, updPC, isBranch, immSel, isCmov;
-
+    
+    initial begin
+        $monitor("Time=%0t|aluOp=%b|brOp=%b|aluSrc=%b|regAluOut=%b|immSel=%b|wrReg=%b",$time,aluOp,brOp,aluSrc,regAluOut,immSel,wrReg);
+        $monitor("Time=%0t|aluOp=%b|aluip_fin1=%b|aluip_fin2=%b|alures=%b",$time,aluOp,aluip_fin1,aluip_fin2,alures);
+        $monitor("Time=%0t|imm16=%b|extimm16=%b|finimm=%b",$time,imm16,extimm16,finimm);
+    end
+    
+    always@(*) begin
+        if(updPC) begin disp<=alures; end
+    end
+    
     ins_mem IM(
         .addr(PC),
         .ins(ins)
@@ -39,6 +49,7 @@ module risc(
 
     control_unit CPU(
         .clk(clk),
+        .rst(rst),
         .INT(INT),
         .opcode(opcode),
         .func(func),
@@ -50,6 +61,7 @@ module risc(
         .wrMem(wrMem),
         .mToReg(mToReg),
         .wrReg(wrReg),
+        .immSel(immSel),
         .updPC(updPC),
         .isCmov(isCmov)
     );

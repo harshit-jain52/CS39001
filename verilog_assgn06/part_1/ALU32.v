@@ -25,7 +25,11 @@ module ALU32 #(parameter N = 32)(
     input wire [3:0] func,
     output wire [N-1:0] RES
     );
-
+    
+    initial begin
+       $monitor("ALU Time=%0t|A=%b|B=%b|RES=%b",$time,A,B,RES);
+    end
+    
     wire [N-1:0] outs [15:0];
 
     mux16x1N #(.N(N)) MUX(.D(outs), .S(func), .Z(RES));

@@ -1,7 +1,7 @@
 module control_unit (
     input [5:0] opcode,
     input [4:0] func,
-    input clk, INT,
+    input clk, INT, rst,
     output reg [3:0] aluOp,
     output reg [2:0] brOp,
     output reg aluSrc, regAluOut, rdMem, wrMem, wrReg, mToReg, immSel, updPC, isCmov
@@ -42,9 +42,15 @@ module control_unit (
     initial begin
         state = 3'b100;
         ins_state = 3'b100;
+        
+        $monitor("Time=%0t|S=%d| IS=%d",$time,state,ins_state);
     end
 
-    always@(posedge clk) begin
+    always@(posedge clk, posedge rst) begin
+        if(rst) begin
+            state <= 3'b100;
+            ins_state <= 3'b100;
+        end
         case(state)
         0: begin
             updPC <= 0;
@@ -61,6 +67,7 @@ module control_unit (
                     regAluOut <= 1;
                     rdMem <= 0;
                     wrMem <= 0;
+                    wrReg<=0;
                     mToReg <= 0;
                     // immSel - don't care
                     isCmov <= 0;
@@ -71,6 +78,9 @@ module control_unit (
                     ins_state<=2;
                 end
                 2: begin
+                    ins_state<=3;
+                end
+                3: begin
                     wrReg <= 0;
                     updPC <= 1;
                     state <= 0;
@@ -87,6 +97,7 @@ module control_unit (
                     regAluOut <= 1;
                     rdMem <= 0;
                     wrMem <= 0;
+                    wrReg<=0;
                     mToReg <= 0;
                     // immSel - don't care
                     isCmov <= 0;
@@ -113,6 +124,7 @@ module control_unit (
                     regAluOut <= 1;
                     rdMem <= 0;
                     wrMem <= 0;
+                    wrReg<=0;
                     mToReg <= 0;
                     // immSel - don't care
                     isCmov <= 1;
@@ -144,6 +156,7 @@ module control_unit (
                     regAluOut <= 0;
                     rdMem <= 0;
                     wrMem <= 0;
+                    wrReg<=0;
                     mToReg <= 0;
                     immSel <= 0;
                     isCmov <= 0;
@@ -169,6 +182,7 @@ module control_unit (
                     aluSrc <= 0;
                     regAluOut <= 0;
                     wrMem <= 0;
+                    wrReg<=0;
                     immSel <= 0;
                     isCmov <= 0;
                     ins_state <= 1;
@@ -201,6 +215,7 @@ module control_unit (
                     regAluOut <= 0;
                     rdMem <= 0;
                     mToReg <= 0;
+                    wrReg<=0;
                     immSel <= 0;
                     isCmov <= 0;
                     ins_state <= 1;
@@ -229,6 +244,7 @@ module control_unit (
                     regAluOut <= 0;
                     rdMem <= 0;
                     wrMem <= 0;
+                    wrReg<=0;
                     mToReg <= 0;
                     immSel <= 1;
                     isCmov <= 0;
@@ -253,6 +269,7 @@ module control_unit (
                     regAluOut <= 0;
                     rdMem <= 0;
                     wrMem <= 0;
+                    wrReg<=0;
                     mToReg <= 0;
                     immSel <= 1;
                     isCmov <= 0;
@@ -277,6 +294,7 @@ module control_unit (
                     regAluOut <= 0;
                     rdMem <= 0;
                     wrMem <= 0;
+                    wrReg<=0;
                     mToReg <= 0;
                     immSel <= 1;
                     isCmov <= 0;
@@ -301,6 +319,7 @@ module control_unit (
                     regAluOut <= 0;
                     rdMem <= 0;
                     wrMem <= 0;
+                    wrReg<=0;
                     mToReg <= 0;
                     immSel <= 1;
                     isCmov <= 0;
@@ -363,6 +382,7 @@ module control_unit (
                     rdMem <= 0;
                     wrMem <= 0;
                     mToReg <= 0;
+                    wrReg<=0;
                     immSel <= 0;
                     isCmov <= 0;
                     ins_state <= 1;
@@ -372,6 +392,9 @@ module control_unit (
                     ins_state<=2;
                 end
                 2: begin
+                    ins_state<=3;
+                end
+                3: begin
                     wrReg <= 0;
                     updPC <= 1;
                     state <= 0;
@@ -380,6 +403,12 @@ module control_unit (
                 endcase
             end
             endcase
+        end
+        4: begin
+            if(!rst) begin
+                state <= 0;
+                ins_state <= 0;
+            end
         end
         endcase
     end

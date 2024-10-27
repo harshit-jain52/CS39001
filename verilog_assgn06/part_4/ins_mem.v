@@ -5,11 +5,12 @@ module ins_mem(
 	reg [31:0] mem [1023:0];
 	
 	initial begin
-		$readmemb("instructions_bin.txt", mem, 0, 1023);	
+		$readmemb("instructions_bin.mem", mem, 0, 1023);
+		$monitor("PC = %d, ins = %b", addr[9:0], mem[addr[9:0]]);
 	end
 
 	always @(*) begin 
-		// $display("PC = %d, ins = %b", addr[9:0], mem[addr[9:0]]);
+//		 $display("PC = %d, ins = %b", addr[9:0], mem[addr[9:0]]);
 		ins = mem[addr[9:0]];
 	end
 endmodule

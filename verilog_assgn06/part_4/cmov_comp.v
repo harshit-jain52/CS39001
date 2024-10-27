@@ -4,7 +4,7 @@ module cmov_comp(
     output reg [31:0] aluip_fin1, aluip_fin2
 );
 
-    always @(posedge clk) begin
+    always @(*) begin
         if(isCmov) begin
             aluip_fin1 <= (A < B)? A : B;
             aluip_fin2 <= 0;
