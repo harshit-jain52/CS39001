@@ -26,9 +26,9 @@ module ALU32 #(parameter N = 32)(
     output wire [N-1:0] RES
     );
     
-    initial begin
-       $monitor("ALU Time=%0t|A=%b|B=%b|RES=%b",$time,A,B,RES);
-    end
+//    initial begin
+//       $monitor("ALU Time=%0t|A=%b|B=%b|RES=%b",$time,A,B,RES);
+//    end
     
     wire [N-1:0] outs [15:0];
 
@@ -40,15 +40,15 @@ module ALU32 #(parameter N = 32)(
     orN #(.N(N)) OR(.A(A),.B(B),.C(outs[3]));
     xorN #(.N(N)) XOR(.A(A),.B(B),.C(outs[4]));
     norN #(.N(N)) NOR(.A(A),.B(B),.C(outs[5]));
-    notN #(.N(N)) NOT(.A(A), .C(outs[6]));
-    SLN1 #(.N(N)) SL(.A(A),.B(B[0]),.C(outs[7]));
-    SRLN1 #(.N(N)) SRL(.A(A),.B(B[0]),.C(outs[8]));
-    SRAN1 #(.N(N)) SRA(.A(A),.B(B[0]),.C(outs[9]));
-    incN #(.N(N)) INC(.A(A), .C(outs[10]));
-    decN #(.N(N)) DEC(.A(A), .C(outs[11]));
-    sltN #(.N(N)) SLT(.A(A), .B(B), .C(outs[12]));
-    sgtN #(.N(N)) SGT(.A(A), .B(B), .C(outs[13]));
-    luiN #(.N(N)) LUI(.A(A), .C(outs[14]));
-    hamm32 HAMM(.A(A), .H(outs[15]));
+    SLN1 #(.N(N)) SL(.A(A),.B(B[0]),.C(outs[6]));
+    SRLN1 #(.N(N)) SRL(.A(A),.B(B[0]),.C(outs[7]));
+    SRAN1 #(.N(N)) SRA(.A(A),.B(B[0]),.C(outs[8]));
+    sltN #(.N(N)) SLT(.A(A), .B(B), .C(outs[9]));
+    sgtN #(.N(N)) SGT(.A(A), .B(B), .C(outs[10]));
+    notN #(.N(N)) NOT(.A(A), .C(outs[11]));
+    incN #(.N(N)) INC(.A(A), .C(outs[12]));
+    decN #(.N(N)) DEC(.A(A), .C(outs[13]));
+    hamm32 HAMM(.A(A), .H(outs[14]));
+    luiN #(.N(N)) LUI(.A(A), .C(outs[15]));
     
 endmodule

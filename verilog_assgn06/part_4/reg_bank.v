@@ -45,7 +45,7 @@ module reg_bank(
         $monitor("Time: %0t | R[13]: %d", $time, R[13]);
         $monitor("Time: %0t | R[14]: %d", $time, R[14]);
         $monitor("Time: %0t | R[15]: %d", $time, R[15]);
-        $monitor("Time: %0t|destReg:%b|wrData=%b", $time,destReg,wrData);
+//        $monitor("Time: %0t|destReg:%b|wrData=%b", $time,destReg,wrData);
     end
 
     always@(posedge clk, posedge rst) begin

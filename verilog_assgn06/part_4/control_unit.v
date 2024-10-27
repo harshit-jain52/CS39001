@@ -43,7 +43,7 @@ module control_unit (
         state = 3'b100;
         ins_state = 3'b100;
         
-        $monitor("Time=%0t|S=%d| IS=%d",$time,state,ins_state);
+//        $monitor("Time=%0t|S=%d| IS=%d",$time,state,ins_state);
     end
 
     always@(posedge clk, posedge rst) begin
