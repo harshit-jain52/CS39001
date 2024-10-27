@@ -7,7 +7,7 @@ module branch_comp(
 
     parameter BR=3'b000, BMI=3'b001, BPL=3'b010, BZ=3'b011;
 
-    always @(posedge clk)
+    always @(*)
     begin   
         case(brOp)
             BR: isBranch <= 1;

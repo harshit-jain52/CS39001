@@ -78,9 +78,6 @@ module control_unit (
                     ins_state<=2;
                 end
                 2: begin
-                    ins_state<=3;
-                end
-                3: begin
                     wrReg <= 0;
                     updPC <= 1;
                     state <= 0;
@@ -382,7 +379,6 @@ module control_unit (
                     rdMem <= 0;
                     wrMem <= 0;
                     mToReg <= 0;
-                    wrReg<=0;
                     immSel <= 0;
                     isCmov <= 0;
                     ins_state <= 1;
@@ -392,9 +388,6 @@ module control_unit (
                     ins_state<=2;
                 end
                 2: begin
-                    ins_state<=3;
-                end
-                3: begin
                     wrReg <= 0;
                     updPC <= 1;
                     state <= 0;
