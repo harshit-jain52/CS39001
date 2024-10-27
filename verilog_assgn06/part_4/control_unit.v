@@ -28,7 +28,7 @@ module control_unit (
         HAMI = 6'b001111,
         LUI = 6'b010000,
         LD = 6'b010001,
-        ST = 6'b010010;
+        ST = 6'b010010,
         MOVE = 6'b010100,
         CMOV = 6'b010101,
         BR = 6'b100000,

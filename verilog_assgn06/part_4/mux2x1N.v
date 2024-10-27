@@ -8,7 +8,7 @@ module mux2x1N #(parameter N = 32)
 
     genvar i;
     generate
-        for(i = 0; i < N; i++)
+        for(i = 0; i < N; i=i+1)
         begin
             mux2x1 MUX(.d0(d0[i]), .d1(d1[0]), .sel(sel), .Z(Z[i]));
         end

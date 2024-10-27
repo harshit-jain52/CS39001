@@ -2,7 +2,7 @@ module reg_bank(
     input wire clk, rst, wrReg,
     input wire [4:0] rs, rt, destReg,
     output signed [31:0] rdData1, rdData2,
-    input wire [31:0] wrData,
+    input wire [31:0] wrData
     );
 
     reg signed [31:0] R [17:0]; // R0-R15,R16=RET

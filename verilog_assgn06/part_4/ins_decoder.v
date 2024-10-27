@@ -1,5 +1,5 @@
 module ins_decoder (
-    input [31:0] ins
+    input [31:0] ins,
     output reg [5:0] opcode,
     output reg [4:0] func,rs,rt,rd,
     output reg [15:0] imm16,
@@ -24,7 +24,7 @@ module ins_decoder (
         HAMI = 6'b001111,
         LUI = 6'b010000,
         LD = 6'b010001,
-        ST = 6'b010010;
+        ST = 6'b010010,
         MOVE = 6'b010100,
         CMOV = 6'b010101,
         BR = 6'b100000,
