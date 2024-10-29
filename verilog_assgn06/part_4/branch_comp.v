@@ -12,9 +12,9 @@ module branch_comp(
         case(brOp)
             BR: isBranch <= 1;
             BMI: isBranch <= rsOut[31];
-            BPL: isBranch <= (rsOut[31] > 0)? 1'b1 : 1'b0;
-            BZ: isBranch <= (rsOut == 0)? 1'b1 : 1'b0;    
-            default: isBranch <=0;
+            BPL: isBranch <= (~rsOut[31]) & |rsOut;
+            BZ: isBranch <= ~|rsOut;
+            default: isBranch <= 0;
         endcase
     end
 
