@@ -30,9 +30,11 @@ module risc_tb;
 //        $monitor("Time = %0t | disp = %b %d |", $time, disp,disp);
         clk=0; rst=1; INT=0;
         
-        #100 rst=0;
-        #2000 $finish;
+        #20 rst=0;
+        
+        #190 INT=1'b1;
+        #400 $finish;
     end
     
-    always #5 clk=~clk;
+    always #1 clk=~clk;
 endmodule

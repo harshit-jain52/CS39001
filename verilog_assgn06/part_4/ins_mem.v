@@ -6,7 +6,7 @@ module ins_mem(
 	
 	initial begin
 		$readmemb("instructions_bin.mem", mem, 0, 1023);
-		$monitor("PC = %d, ins = %b", addr[9:0], mem[addr[9:0]]);
+		$monitor("Time:%0t | PC = %d, ins = %b", $time, addr[9:0], mem[addr[9:0]]);
 	end
 
 	always @(*) begin 

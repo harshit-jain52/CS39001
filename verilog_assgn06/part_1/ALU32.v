@@ -45,10 +45,10 @@ module ALU32 #(parameter N = 32)(
     SRAN1 #(.N(N)) SRA(.A(A),.B(B[0]),.C(outs[8]));
     sltN #(.N(N)) SLT(.A(A), .B(B), .C(outs[9]));
     sgtN #(.N(N)) SGT(.A(A), .B(B), .C(outs[10]));
-    notN #(.N(N)) NOT(.A(A), .C(outs[11]));
-    incN #(.N(N)) INC(.A(A), .C(outs[12]));
-    decN #(.N(N)) DEC(.A(A), .C(outs[13]));
-    hamm32 HAMM(.A(A), .H(outs[14]));
-    luiN #(.N(N)) LUI(.A(A), .C(outs[15]));
+    notN #(.N(N)) NOT(.A(B), .C(outs[11]));
+    incN #(.N(N)) INC(.A(B), .C(outs[12]));
+    decN #(.N(N)) DEC(.A(B), .C(outs[13]));
+    hamm32 HAMM(.A(B), .H(outs[14]));
+    luiN #(.N(N)) LUI(.A(B), .C(outs[15]));
     
 endmodule

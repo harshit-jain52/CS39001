@@ -345,9 +345,8 @@ module control_unit (
                     mToReg <= 0;
                     // immSel - don't care
                     isCmov <= 0;
-                    if(INT) begin
-                        ins_state <= 1;
-                    end
+                    if(INT) ins_state <= 1;
+                    else ins_state <= 0;
                 end
                 1: begin
                     updPC <= 1;
