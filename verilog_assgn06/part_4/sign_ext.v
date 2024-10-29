@@ -5,6 +5,6 @@ module sign_ext #(parameter N = 16, parameter M = 32)
     output wire [M-1:0] out
 );  
 
-assign out = { {(M-N){in[N-1]}}, in };
+    assign out = { {(M-N){in[N-1]}}, in };
 
 endmodule

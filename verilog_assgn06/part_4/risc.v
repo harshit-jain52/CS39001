@@ -16,14 +16,15 @@ module risc(
 //    initial begin
 //        $monitor("Time=%0t|aluOp=%b|brOp=%b|aluSrc=%b|regAluOut=%b|immSel=%b|wrReg=%b|mToReg=%b",$time,aluOp,brOp,aluSrc,regAluOut,immSel,wrReg,mToReg);
 //        $monitor("Time=%0t|aluOp=%b|aluip_fin1=%b|aluip_fin2=%b|alures=%b",$time,aluOp,aluip_fin1,aluip_fin2,alures);
-//        $monitor("Time=%0t|imm16=%b|extimm16=%b|finimm=%b",$time,imm16,extimm16,finimm);
+//        $monitor("Time=%0t|imm16=%b|extimm16=%b|extimm26=%b|finimm=%b",$time,imm16,extimm16,extimm26,finimm);
 //        $monitor("Time=%0t|Rdin=%b",$time,Rdin);
 //        $monitor("Time=%0t|LMD=%b|rdMem=%b|wrMem=%b",$time,LMD,rdMem,wrMem);
+//        $monitor("Time=%0t|brOp=%b|isBranch=%b|aluip2=%b|finalPC=%b",$time,brOp,isBranch,aluip2,finalPC);        
 //    end
     
-    always@(*) begin
-        if(updPC) begin disp<=alures; end
-    end
+//    always@(*) begin
+//        if(updPC) begin disp<=alures; end
+//    end
     
     ins_mem IM(
         .addr(PC),
@@ -47,7 +48,7 @@ module risc(
         .rt(rt),
         .rd(rd),
         .imm16(imm16),
-        .imm26(imm32)
+        .imm26(imm26)
     );
 
     control_unit CPU(
@@ -138,7 +139,7 @@ module risc(
         .out(extimm16)
     );
 
-    sign_ext #(.N(26), .M(32)) SGEXT32(
+    sign_ext #(.N(26), .M(32)) SGEXT26(
         .in(imm26),
         .out(extimm26)
     );
@@ -151,7 +152,7 @@ module risc(
     );
 
     mux2x1N #(.N(32)) MUX_ALUIN1(
-        .d0(NPC),
+        .d0(PC),
         .d1(A),
         .sel(brOp[2]),
         .Z(aluip1)
