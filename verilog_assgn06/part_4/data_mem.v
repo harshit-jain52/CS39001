@@ -9,13 +9,14 @@ module data_mem(
     reg signed [31:0] mem [0:1023];
 
     initial begin
-		$readmemh("data_hex.mem", mem, 0, 1023);
+		$readmemb("data_bin.mem", mem, 0, 1023);
 		
 		$monitor("Time: %0t | mem[0]: %d", $time, mem[0]);
         $monitor("Time: %0t | mem[1]: %d", $time, mem[1]);
         $monitor("Time: %0t | mem[2]: %d", $time, mem[2]);
         $monitor("Time: %0t | mem[3]: %d", $time, mem[3]);
         $monitor("Time: %0t | mem[4]: %d", $time, mem[4]);
+        $monitor("Time: %0t | mem[5]: %d", $time, mem[5]);
         
 //        $monitor("Time=%0t|addr=%b",$time,addr[9:0]);
 

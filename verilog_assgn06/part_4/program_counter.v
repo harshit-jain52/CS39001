@@ -13,7 +13,7 @@ module program_counter(
             PCout <= 0;
         end
         else if (updPC) begin
-            $display("UPDATING PC to %d", PCin);
+//            $display("UPDATING PC to %d", PCin);
             PCout <= PCin;
         end
     end

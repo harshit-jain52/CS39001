@@ -357,16 +357,26 @@ module control_unit (
                 endcase
             end
             NOP: begin
-                // aluOp - don't care
-                brOp <= 3'b100;
-                aluSrc <= 0;
-                // regAluOut - don't care
-                rdMem <= 0;
-                wrMem <= 0;
-                wrReg <= 0;
-                mToReg <= 0;
-                // immSel - don't care
-                isCmov <= 0;
+                case(ins_state)
+                0: begin
+                    // aluOp - don't care
+                    brOp <= 3'b100;
+                    aluSrc <= 0;
+                    // regAluOut - don't care
+                    rdMem <= 0;
+                    wrMem <= 0;
+                    wrReg <= 0;
+                    mToReg <= 0;
+                    // immSel - don't care
+                    isCmov <= 0;
+                    ins_state<=1;
+                end
+                1: begin
+                    updPC <= 1;
+                    state <= 0;
+                    ins_state <= 0;
+                end
+                endcase
             end
             default: begin
                 // ADDI, SUBI, ANDI, ORI, XORI, NORI, SLI, SRLI, SRAI, SLTI, SGTI, NOTI, INCI, DECI, HAMI
