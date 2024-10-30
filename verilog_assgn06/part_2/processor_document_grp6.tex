@@ -146,13 +146,13 @@
 
 \begin{table}[H]
     \centering
-    \begin{tabular}{|c|c|}
+    \begin{tabular}{|c|c|c|}
         \hline
-        \textbf{Instruction} & \textbf{Opcode} \\
+        \textbf{Instruction} & \textbf{Opcode} & \textbf{Description} \\
         \hline
-        HALT  & 100100 \\
-        NOP  & 100101 \\
-        CALL & 100110 \\
+        HALT  & 100100 & Pause instruction reading until INT signal\\
+        NOP  & 100101 & No Operation\\
+        CALL & 100110 & Write current PC Address into \$ret\\
         \hline
     \end{tabular}
     \caption{Opcodes for program control instructions}
