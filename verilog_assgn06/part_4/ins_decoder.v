@@ -1,5 +1,5 @@
 module ins_decoder (
-    input [31:0] ins,
+    input [31:0] ins, PC,
     output reg [5:0] opcode,
     output reg [4:0] func,rs,rt,rd,
     output reg [15:0] imm16,
@@ -64,6 +64,15 @@ module ins_decoder (
             rt <= 5'b0;
             rd <= ins[15:11];
             imm16 <= 16'b0;
+            imm26 <= 26'b0;
+        end
+        CALL: begin
+            // ADDI $r16, $r0, PC
+            func <= 5'b0;
+            rs <= 5'b0;
+            rt <= 5'b10000;
+            rd <= 5'b0;
+            imm16 <= PC;
             imm26 <= 26'b0;
         end
         default: begin

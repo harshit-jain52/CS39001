@@ -86,6 +86,7 @@ module control_unit (
                 endcase
             end
             MOVE: begin
+            // ADD $rd, $rs, $r0
                 case(ins_state)
                 0: begin
                     aluOp <= 4'b0000;
@@ -376,6 +377,33 @@ module control_unit (
                     ins_state <= 0;
                 end
                 endcase
+            end
+            CALL: begin
+            // ADDI $r16, $r0, PC
+                case(ins_state)
+                0: begin
+                    aluOp <= 4'b0000;
+                    brOp <= 3'b100;
+                    aluSrc <= 0;
+                    regAluOut <= 0;
+                    rdMem <= 0;
+                    wrMem <= 0;
+                    mToReg <= 0;
+                    immSel <= 0;
+                    isCmov <= 0;
+                    ins_state <= 1;
+                end
+                1: begin
+                    wrReg <= 1;
+                    ins_state<=2;
+                end
+                2: begin
+                    wrReg <= 0;
+                    updPC <= 1;
+                    state <= 0;
+                    ins_state <= 0;
+                end
+                endcase            
             end
             default: begin
                 // ADDI, SUBI, ANDI, ORI, XORI, NORI, SLI, SRLI, SRAI, SLTI, SGTI, NOTI, INCI, DECI, HAMI

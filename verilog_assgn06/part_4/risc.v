@@ -48,7 +48,8 @@ module risc(
         .rt(rt),
         .rd(rd),
         .imm16(imm16),
-        .imm26(imm26)
+        .imm26(imm26),
+        .PC(PC)
     );
 
     control_unit CPU(
