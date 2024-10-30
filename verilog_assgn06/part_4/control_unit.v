@@ -41,7 +41,7 @@ module control_unit (
 
     initial begin
         state = 3'b100;
-        ins_state = 3'b100;
+        ins_state = 3'b111;
         
 //        $monitor("Time=%0t|S=%d| IS=%d",$time,state,ins_state);
     end
@@ -49,14 +49,15 @@ module control_unit (
     always@(posedge clk, posedge rst) begin
         if(rst) begin
             state <= 3'b100;
-            ins_state <= 3'b100;
+            ins_state <= 3'b111;
         end
         case(state)
         0: begin
             updPC <= 0;
-            state <= 1;
+            state <= 2;
         end
-        1: begin
+        1: begin state <= 2; end
+        2: begin
             case(opcode)
             R_TYPE: begin
                 case(ins_state)
@@ -189,13 +190,14 @@ module control_unit (
                     rdMem <= 1;
                     ins_state<=2;
                 end
-                2: begin
+                2: begin ins_state<=3; end
+                3: begin
                     rdMem <= 0;
                     mToReg <= 1;
                     wrReg <= 1;
-                    ins_state<=3;
+                    ins_state<=4;
                 end
-                3: begin
+                4: begin
                     mToReg <= 0;
                     wrReg <= 0;
                     updPC <= 1;

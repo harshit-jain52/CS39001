@@ -31,9 +31,9 @@ module risc_tb;
         clk=0; rst=1; INT=0;
         
         #20 rst=0;
-        
-        #190 INT=1'b1;
-        #400 $finish;
+//        #11 $finish;
+//        #190 INT=1'b1;
+        #1000 $finish;
     end
     
     always #1 clk=~clk;

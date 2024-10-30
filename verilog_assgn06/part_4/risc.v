@@ -2,7 +2,7 @@ module risc(
     input wire clk, rst, INT,
     output reg [31:0] disp
 );
-    wire [31:0] PC, NPC, ins, finalPC;
+    wire [31:0] PC, NPC, ins;
     wire [31:0] A, B, Rdin, aluip1, aluip2, alures, aluip_fin1, aluip_fin2, LMD;
     wire [5:0] opcode;
     wire [4:0] func, rs, rt, rd, destReg;
@@ -11,35 +11,46 @@ module risc(
     wire [31:0] extimm16, extimm26, finimm;
     wire [3:0] aluOp;
     wire [2:0] brOp;
-    wire aluSrc, regAluOut, rdMem, wrMem, mToReg, wrReg, updPC, isBranch, immSel, isCmov;
+    wire aluSrc, regAluOut, rdMem, wrMem, mToReg, wrReg, updPC, immSel, isCmov;
     
-//    initial begin
-//        $monitor("Time=%0t|aluOp=%b|brOp=%b|aluSrc=%b|regAluOut=%b|immSel=%b|wrReg=%b|mToReg=%b",$time,aluOp,brOp,aluSrc,regAluOut,immSel,wrReg,mToReg);
+    initial begin
+        $monitor("Time=%0t|aluOp=%b|brOp=%b|aluSrc=%b|regAluOut=%b|immSel=%b|wrReg=%b|mToReg=%b",$time,aluOp,brOp,aluSrc,regAluOut,immSel,wrReg,mToReg);
 //        $monitor("Time=%0t|aluOp=%b|aluip_fin1=%b|aluip_fin2=%b|alures=%b",$time,aluOp,aluip_fin1,aluip_fin2,alures);
 //        $monitor("Time=%0t|imm16=%b|extimm16=%b|extimm26=%b|finimm=%b",$time,imm16,extimm16,extimm26,finimm);
 //        $monitor("Time=%0t|Rdin=%b",$time,Rdin);
-//        $monitor("Time=%0t|LMD=%b|rdMem=%b|wrMem=%b",$time,LMD,rdMem,wrMem);
-//        $monitor("Time=%0t|brOp=%b|isBranch=%b|aluip2=%b|finalPC=%b",$time,brOp,isBranch,aluip2,finalPC);        
-//    end
+        $monitor("Time=%0t|LMD=%b|rdMem=%b|wrMem=%b",$time,LMD,rdMem,wrMem);
+        $monitor("Time=%0t|brOp=%b|aluip2=%b|NPC=%b",$time,brOp,aluip2,NPC);        
+    end
     
-//    always@(*) begin
-//        if(updPC) begin disp<=alures; end
-//    end
+//    ins_mem IM(
+//        .addr(PC),
+//        .ins(ins)
+//    );
     
-    ins_mem IM(
-        .addr(PC),
-        .ins(ins)
+    ins_bram IMB(
+        .clka(~clk),
+        .addra(PC[7:0]),
+        .douta(ins)
     );
 
-    data_mem DM(
-        .clk(clk),
-        .addr(alures),
-        .wrData(B),
-        .wrMem(wrMem),
-        .rdMem(rdMem),
-        .rdData(LMD)
+//    data_mem DM(
+//        .clk(clk),
+//        .addr(alures),
+//        .wrData(B),
+//        .wrMem(wrMem),
+//        .rdMem(rdMem),
+//        .rdData(LMD)
+//    );
+    
+    data_bram DMB(
+        .clka(~clk),
+        .addra(alures[6:0]),
+        .dina(B),
+        .wea(wrMem),
+        .ena(rdMem|wrMem),
+        .douta(LMD)
     );
-
+    
     ins_decoder ID(
         .ins(ins),
         .opcode(opcode),
@@ -73,9 +84,12 @@ module risc(
     
     branch_comp BC(
         .clk(clk),
+        .rst(rst),
         .brOp(brOp),
         .rsOut(A),
-        .isBranch(isBranch)
+        .alures(alures),
+        .PCin(PC),
+        .PCout(NPC)
     );
 
     cmov_comp CC(
@@ -96,17 +110,17 @@ module risc(
         .RES(alures)
     );
 
-    pc_inc INC(
-        .PC(PC),
-        .NPC(NPC)
-    );
+//    pc_inc INC(
+//        .PC(PC),
+//        .NPC(NPC)
+//    );
 
-    mux2x1N #(.N(32)) MUX_PC (
-        .d0(NPC), 
-        .d1(alures), 
-        .sel(isBranch), 
-        .Z(finalPC)
-    );
+//    mux2x1N #(.N(32)) MUX_PC (
+//        .d0(NPC), 
+//        .d1(alures), 
+//        .sel(isBranch), 
+//        .Z(finalPC)
+//    );
 
     mux2x1N #(.N(5)) MUX_DEST_REG(
         .d0(rt), 
@@ -118,7 +132,7 @@ module risc(
     program_counter PCControl(
         .clk(clk),
         .rst(rst),
-        .PCin(finalPC),
+        .PCin(NPC),
         .updPC(updPC),
         .PCout(PC)
     );

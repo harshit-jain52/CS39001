@@ -1,21 +1,28 @@
 module branch_comp(
-    input wire [2: 0] brOp,
-    input wire [31: 0] rsOut,
-    input wire clk,
-    output reg isBranch
+    input wire clk,rst,
+    input wire [2:0] brOp,
+    input wire [31:0] alures,rsOut,PCin,
+    output reg [31:0] PCout
 );
 
     parameter BR=3'b000, BMI=3'b001, BPL=3'b010, BZ=3'b011;
 
-    always @(*)
+    initial begin
+        PCout<=0;
+    end
+    
+    always @(posedge clk, posedge rst)
     begin   
-        case(brOp)
-            BR: isBranch <= 1;
-            BMI: isBranch <= rsOut[31];
-            BPL: isBranch <= (~rsOut[31]) & |rsOut;
-            BZ: isBranch <= ~|rsOut;
-            default: isBranch <= 0;
-        endcase
+        if(rst) PCout <= 0;
+        else begin
+            case(brOp)
+                BR: PCout <= alures;
+                BMI: PCout <= (rsOut[31] ? alures : PCin+1);
+                BPL: PCout <= (((~rsOut[31]) & |rsOut)? alures:PCin+1);
+                BZ: PCout <= ((~|rsOut) ? alures : PCin+1);
+                default: PCout <= PCin +1;
+            endcase
+        end
     end
 
 endmodule

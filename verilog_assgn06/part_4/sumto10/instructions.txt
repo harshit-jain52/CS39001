@@ -1,0 +1,6 @@
+LD R1, #0(R0)
+BZ R1, #4
+ADD R2, R2, R1
+SUBI R1, R1, #1
+BR #-3
+HALT
