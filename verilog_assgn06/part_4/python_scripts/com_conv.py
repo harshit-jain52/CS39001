@@ -117,8 +117,6 @@ for instr in instructions:
 
         file.write("000000") # opcode
 
-        file.write(R_REG_MAPPING[instr[1]]) # rd
-
         if instr[0] in Rtype_3reg or instr[0] == "MOV" : # rs
             file.write(R_REG_MAPPING[instr[2]]) 
         else:
@@ -129,6 +127,8 @@ for instr in instructions:
         else:
             file.write(R_REG_MAPPING[instr[2]])
         
+        file.write(R_REG_MAPPING[instr[1]]) # rd
+
         file.write("000000") # don't care
         
         file.write(Rtype_func_map[instr[0]]) # funct
