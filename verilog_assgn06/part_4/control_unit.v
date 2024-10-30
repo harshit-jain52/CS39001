@@ -54,10 +54,9 @@ module control_unit (
         case(state)
         0: begin
             updPC <= 0;
-            state <= 2;
+            state <= 1;
         end
-        1: begin state <= 2; end
-        2: begin
+        1: begin
             case(opcode)
             R_TYPE: begin
                 case(ins_state)
