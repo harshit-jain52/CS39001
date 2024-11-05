@@ -22,12 +22,12 @@
 
 module risc_tb;
     reg clk,rst,INT;
-    wire [31:0] disp;
+    wire [15:0] disp;
     
-    risc uut(.clk(clk),.rst(rst),.INT(INT),.disp(disp));
+    risc uut(.boardclk(clk),.rst(rst),.INT(INT),.disp(disp));
     
     initial begin
-//        $monitor("Time = %0t | disp = %b %d |", $time, disp,disp);
+        $monitor("Time = %0t | disp = %b %d |", $time, disp,disp);
         clk=0; rst=1; INT=0;
         
         #20 rst=0;
