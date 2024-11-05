@@ -52,7 +52,6 @@ module reg_bank(
 
     always@(posedge clk, posedge rst) begin
         R[0]<=0;
-        if(wrReg) begin R[destReg] <= wrData; end
         if(rst) begin
             R[1] <= 0;
             R[2] <= 0;    
@@ -70,10 +69,13 @@ module reg_bank(
             R[14]<= 0;
             R[15]<= 0;
             R[16]<= 1023;
-            disp <= 16'b1111111111111111;
+           // disp <= 16'b1111111111111111;
+        end
+        else begin
+            if(wrReg) begin R[destReg] <= wrData; end        
         end
     end
     
     always@(posedge clk) disp <= R[2][15:0];
-    always@(negedge clk) disp <= R[2][31:16];
+//    always@(negedge clk) disp <= R[2][31:16];
 endmodule
