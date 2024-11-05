@@ -7,7 +7,7 @@ module program_counter(
     //     PCout <= 0; 
     // end
 
-    always @(posedge clk)
+    always @(posedge clk, posedge rst)
     begin
         if(rst) begin
             PCout <= 0;

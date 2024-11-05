@@ -39,18 +39,16 @@ module control_unit (
         NOP = 6'b100101,
         CALL = 6'b100110;
 
-//    initial begin
-//        state = 3'b100;
-//        ins_state = 3'b111;
-        
+//    initial begin        
 //        $monitor("Time=%0t|S=%d| IS=%d",$time,state,ins_state);
 //    end
 
     always@(posedge clk, posedge rst) begin
         if(rst) begin
-            state <= 3'b100;
-            ins_state <= 3'b111;
+            state <= 0;
+            ins_state <= 0;
         end
+        else begin
         case(state)
         0: begin
             updPC <= 0;
@@ -435,12 +433,7 @@ module control_unit (
             end
             endcase
         end
-        4: begin
-            if(!rst) begin
-                state <= 0;
-                ins_state <= 0;
-            end
-        end
         endcase
+        end
     end
 endmodule
