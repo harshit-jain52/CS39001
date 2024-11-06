@@ -7,7 +7,8 @@ module reg_bank(
     );
 
     reg signed [31:0] R [17:0]; // R0-R15,R16=RET
-  
+    reg cnt;
+    
     assign rdData1 = R[rs];
     assign rdData2 = R[rt];
     
@@ -69,13 +70,14 @@ module reg_bank(
             R[14]<= 0;
             R[15]<= 0;
             R[16]<= 1023;
-           // disp <= 16'b1111111111111111;
+            cnt <= 1'b0;
+            disp <= 32'b1111111111111111;
         end
         else begin
-            if(wrReg) begin R[destReg] <= wrData; end        
+            cnt <= ~cnt;
+            if(wrReg) begin R[destReg] <= wrData; end
+            if(cnt) begin disp <= R[2][31:16]; end
+            else begin disp <= R[2][15:0]; end
         end
     end
-    
-    always@(posedge clk) disp <= R[2][15:0];
-//    always@(negedge clk) disp <= R[2][31:16];
 endmodule
