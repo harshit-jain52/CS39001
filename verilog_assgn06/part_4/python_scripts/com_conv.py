@@ -22,7 +22,7 @@ Rtype_func_map = {
     "INC": "01101",
     "DEC": "01110",
     "HAM": "01111",
-    "MOV": "10000",
+    "MOVE": "10000",
     "CMOV": "10001"
 }
 
@@ -99,7 +99,7 @@ for line in lines:
 file = open("binary.txt", "w") # file to write the binary instructions to be understood by the processor
 
 
-Rtype = ["ADD", "SUB", "AND", "OR", "XOR", "NOR", "SL", "SRL", "SRA", "SLT", "SGT", "NOT", "INC", "DEC", "HAM", "MOV", "CMOV"]
+Rtype = ["ADD", "SUB", "AND", "OR", "XOR", "NOR", "SL", "SRL", "SRA", "SLT", "SGT", "NOT", "INC", "DEC", "HAM", "MOVE", "CMOV"]
 Rtype_3reg = ["ADD", "SUB", "AND", "OR", "XOR", "NOR", "SL", "SRL", "SRA", "SLT", "SGT", "CMOV"]
 
 
@@ -117,7 +117,7 @@ for instr in instructions:
 
         file.write("000000") # opcode
 
-        if instr[0] in Rtype_3reg or instr[0] == "MOV" : # rs
+        if instr[0] in Rtype_3reg or instr[0] == "MOVE" : # rs
             file.write(R_REG_MAPPING[instr[2]]) 
         else:
             file.write("00000")

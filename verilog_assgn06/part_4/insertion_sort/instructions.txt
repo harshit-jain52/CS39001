@@ -1,0 +1,26 @@
+ADDI R1, R0, #1
+SLTI R4, R1, #10
+BZ R4, #13
+SUBI R2, R1, #1
+LD R3, #0(R1)
+BMI R2, #7
+LD, R5, #0(R2)
+SLT R4, R3, R5
+BZ R4, #4
+ST R5, #1(R2)
+DEC R2, R2
+BR #-6
+ST R3, #1(R2)
+INC R1, R1
+BR #-13
+LD R1, #0(R0)
+LD R2, #1(R0)
+LD R3, #2(R0)
+LD R4, #3(R0)
+LD R5, #4(R0)
+LD R6, #5(R0)
+LD R7, #6(R0)
+LD R8, #7(R0)
+LD R9, #8(R0)
+LD R10, #9(R0)
+HALT

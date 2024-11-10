@@ -1,5 +1,6 @@
 module risc(
     input wire boardclk, rst, INT,
+    input wire [3:0] show,
     output wire [15:0] disp
 );  
     wire clk;
@@ -23,7 +24,7 @@ module risc(
 //        $monitor("Time=%0t|brOp=%b|isBranch=%b|aluip2=%b|finalPC=%b",$time,brOp,isBranch,aluip2,finalPC);        
 //    end
     
-    CLKDiv #(.DIVISOR(28'd25000000)) CLK (.clk_in(boardclk),.clk_out(clk));
+    CLKDiv #(.DIVISOR(28'd2)) CLK (.clk_in(boardclk),.clk_out(clk));
     
     ins_mem IM(
         .addr(PC),
@@ -149,7 +150,8 @@ module risc(
         .rdData1(A),
         .rdData2(B),
         .wrData(Rdin),
-        .disp(disp)
+        .disp(disp),
+        .showReg(show)
     );
 
     sign_ext #(.N(16), .M(32)) SGEXT16(

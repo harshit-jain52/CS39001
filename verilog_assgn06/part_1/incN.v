@@ -25,6 +25,6 @@ module incN #(parameter N = 8)(
     output wire [N-1:0] C
     );
     
-    adderN #(.N(N)) ADD(.S(C), .A(A), .B(4));
+    adderN #(.N(N)) ADD(.S(C), .A(A), .B(1));
     
 endmodule

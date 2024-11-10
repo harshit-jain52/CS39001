@@ -25,6 +25,6 @@ module decN #(parameter N = 8)(
     output wire [N-1:0] C
     );
     
-    subtractorN #(.N(N)) SUB(.D(C), .A(A), .B(4));
+    subtractorN #(.N(N)) SUB(.D(C), .A(A), .B(1));
     
 endmodule

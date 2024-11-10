@@ -3,7 +3,8 @@ module reg_bank(
     input wire [4:0] rs, rt, destReg,
     output signed [31:0] rdData1, rdData2,
     input wire [31:0] wrData,
-    output reg [15:0] disp
+    output reg [15:0] disp,
+    input wire [3:0] showReg
     );
 
     reg signed [31:0] R [17:0]; // R0-R15,R16=RET
@@ -76,8 +77,13 @@ module reg_bank(
         else begin
             cnt <= ~cnt;
             if(wrReg) begin R[destReg] <= wrData; end
-            if(cnt) begin disp <= R[2][31:16]; end
-            else begin disp <= R[2][15:0]; end
+            
+            // Sum of natural numbers till 10
+//            if(cnt) begin disp <= R[2][31:16]; end
+//            else begin disp <= R[2][15:0]; end
+
+            // Insertion sort of 10 integers
+            disp <= R[showReg][15:0];
         end
     end
 endmodule
