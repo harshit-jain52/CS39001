@@ -23,7 +23,7 @@
 module risc_tb;
     reg clk,rst,INT;
     reg [3:0] show;
-    wire [15:0] disp;
+    wire signed [15:0] disp;
     
     risc uut(.boardclk(clk),.rst(rst),.INT(INT),.disp(disp), .show(show));
     

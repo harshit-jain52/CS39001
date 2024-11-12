@@ -1,6 +1,6 @@
 def convert_to_binary(imm, bit_count):
     # remove the first # and convert rest of the string to int
-    imm = int(imm[1:])
+    imm = int(imm[1:len(imm)])
     # convert imm to signed binary representation with "bit_count" bits
     if imm < 0:
         imm = (1 << bit_count) + imm
@@ -102,10 +102,9 @@ file = open("binary_memidx.txt", "w") # file to write the binary instructions to
 Rtype = ["ADD", "SUB", "AND", "OR", "XOR", "NOR", "SL", "SRL", "SRA", "SLT", "SGT", "NOT", "INC", "DEC", "HAM", "MOVE", "CMOV"]
 Rtype_3reg = ["ADD", "SUB", "AND", "OR", "XOR", "NOR", "SL", "SRL", "SRA", "SLT", "SGT", "CMOV"]
 
-
-for idx, instr in enumerate(instructions):
-    file.write(f"mem[{idx}] <= 32'b")
-
+for counter, instr in enumerate(instructions):
+    
+    file.write(f"mem[{counter}] <= 32'b")
     if instr[0] in ["LD", "ST"]: # LD R1, #10(R2) -> LD R1, #10 R2
         imm, reg = instr[2].split("(")
         imm = imm.strip()
@@ -116,25 +115,34 @@ for idx, instr in enumerate(instructions):
 
     if instr[0] in Rtype:
 
-        file.write("000000") # opcode
+        if instr[0] == "MOVE":
+            file.write("010100")
+
+        elif instr[0] == "CMOV":
+          file.write("010101")
+
+        else:
+          file.write("000000") # opcode
 
         if instr[0] in Rtype_3reg or instr[0] == "MOVE" : # rs
-            file.write(R_REG_MAPPING[instr[2]]) 
+            file.write(R_REG_MAPPING[instr[2]])
         else:
             file.write("00000")
-        
+
+
         if instr[0] in Rtype_3reg: # rt
             file.write(R_REG_MAPPING[instr[3]])
         else:
             file.write(R_REG_MAPPING[instr[2]])
-        
+
         file.write(R_REG_MAPPING[instr[1]]) # rd
 
         file.write("000000") # don't care
-        
+
         file.write(Rtype_func_map[instr[0]]) # funct
-        file.write(";\n")
-    
+        file.write(";")
+        file.write("\n")
+
     elif instr[0] in Itype:
 
         file.write(Itype_opcode_map[instr[0]]) # opcode
@@ -145,7 +153,7 @@ for idx, instr in enumerate(instructions):
             file.write(R_REG_MAPPING[instr[1]])
         elif instr[0] in ["LD", "ST"]:
             file.write(R_REG_MAPPING[instr[3]])
-        
+
         if instr[0] in ["BMI", "BPL", "BZ"]: #rt
             file.write("00000")
         else:
@@ -155,24 +163,22 @@ for idx, instr in enumerate(instructions):
             file.write(convert_to_binary(instr[3], 16))
         else:
             file.write(convert_to_binary(instr[2], 16))
-        
-        file.write(";\n")
-    
+
+        file.write(";")
+        file.write("\n")
+
     elif instr[0] in Jtype:
 
         file.write(Jtype_opcode_map[instr[0]]) # opcode
         file.write(convert_to_binary(instr[1], 26)) # immediate
-        file.write(";\n")
+        file.write(";")
+
+        file.write("\n")
 
     elif instr[0] in PCtype:
-            
+
         file.write(PCtype_opcode_map[instr[0]]) # opcode
         file.write("00000000000000000000000000")
-        file.write(";\n")
+        file.write(";")
 
-        
-
-
-
-       
-        
+        file.write("\n")

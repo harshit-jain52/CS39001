@@ -79,11 +79,14 @@ module reg_bank(
             if(wrReg) begin R[destReg] <= wrData; end
             
             // Sum of natural numbers till 10
-//            if(cnt) begin disp <= R[2][31:16]; end
-//            else begin disp <= R[2][15:0]; end
+//            if(cnt) begin disp <= R[showReg][31:16]; end // show at R2
+//            else begin disp <= R[showReg][15:0]; end
 
             // Insertion sort of 10 integers
             disp <= R[showReg][15:0];
+            
+            // Booth Multiplication
+//            disp <= R[showReg][15:0]; // show at R15
         end
     end
 endmodule

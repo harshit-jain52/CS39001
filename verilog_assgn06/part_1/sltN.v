@@ -21,10 +21,11 @@
 
 
 module sltN #(parameter N = 8)(
-    input wire [N-1:0] A, B,
+    input wire signed [N-1:0] A, B,
     output wire [N-1:0] C
     );
     
     assign C[N-1:1] = {(N-1){1'b0}};
-    subtractorN #(.N(N)) SUB(.A(A),.B(B),.bout(C[0]));
+//    subtractorN #(.N(N)) SUB(.A(A),.B(B),.bout(C[0]));
+    assign C[0] = A < B;
 endmodule

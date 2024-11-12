@@ -31,18 +31,21 @@ module ALU32 #(parameter N = 32)(
 //    end
     
     wire [N-1:0] outs [15:0];
-
+    wire t1,t2;
     mux16x1N #(.N(N)) MUX(.D(outs), .S(func), .Z(RES));
     
-    adderN #(.N(N)) ADD(.A(A),.B(B),.S(outs[0]));
-    subtractorN #(.N(N)) SUB(.A(A),.B(B),.D(outs[1]));
+    adderN #(.N(N)) ADD(.A(A),.B(B),.S(outs[0]),.cout(t1));
+    subtractorN #(.N(N)) SUB(.A(A),.B(B),.D(outs[1]),.bout(t2));
     andN #(.N(N)) AND(.A(A),.B(B),.C(outs[2]));
     orN #(.N(N)) OR(.A(A),.B(B),.C(outs[3]));
     xorN #(.N(N)) XOR(.A(A),.B(B),.C(outs[4]));
     norN #(.N(N)) NOR(.A(A),.B(B),.C(outs[5]));
-    SLN1 #(.N(N)) SL(.A(A),.B(B[0]),.C(outs[6]));
-    SRLN1 #(.N(N)) SRL(.A(A),.B(B[0]),.C(outs[7]));
-    SRAN1 #(.N(N)) SRA(.A(A),.B(B[0]),.C(outs[8]));
+//    SLN1 #(.N(N)) SL(.A(A),.B(B[0]),.C(outs[6])); // shift by 1/0
+//    SRLN1 #(.N(N)) SRL(.A(A),.B(B[0]),.C(outs[7])); // shift by 1/0
+//    SRAN1 #(.N(N)) SRA(.A(A),.B(B[0]),.C(outs[8])); // shift by 1/0
+    SLLN #(.N(N)) SL(.A(A),.B(B),.C(outs[6]));
+    SRLN #(.N(N)) SRL(.A(A),.B(B),.C(outs[7]));
+    SRAN #(.N(N)) SRA(.A(A),.B(B),.C(outs[8]));
     sltN #(.N(N)) SLT(.A(A), .B(B), .C(outs[9]));
     sgtN #(.N(N)) SGT(.A(A), .B(B), .C(outs[10]));
     notN #(.N(N)) NOT(.A(B), .C(outs[11]));
